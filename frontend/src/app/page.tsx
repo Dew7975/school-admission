@@ -18,7 +18,7 @@ import {
   Sparkles
 } from 'lucide-react';
 
-const API_BASE_URL = 'http://127.0.0.1:8000/api/';
+const API_BASE_URL = 'https://school-admission-backend-jz8m.onrender.com/api/';
 
 interface Submission {
   id: number;
