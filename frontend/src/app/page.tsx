@@ -18,7 +18,7 @@ import {
   Sparkles
 } from 'lucide-react';
 
-const API_BASE_URL = 'https://school-admission-backend-jz8m.onrender.com/api/';
+const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
 interface Submission {
   id: number;
@@ -75,9 +75,9 @@ export default function Home() {
   const fetchData = async () => {
     try {
       const [subRes, sumRes] = await Promise.all([
-        axios.get(`${API_BASE_URL}submissions/`),
-        axios.get(`${API_BASE_URL}submissions/summary/`)
-      ]);
+    axios.get(`${API_BASE_URL}/submissions/`),
+    axios.get(`${API_BASE_URL}/submissions/summary/`)
+]);
       setSubmissions(subRes.data);
       setSummary(sumRes.data);
     } catch (error) {
@@ -131,10 +131,10 @@ export default function Home() {
     if (documentFile) data.append('document', documentFile);
 
     try {
-      await axios.post(`${API_BASE_URL}submissions/`, data, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      alert('Application submitted successfully! Switch to Admin Dashboard to review.');
+  await axios.post(`${API_BASE_URL}/submissions/`, data, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+      alert('Application submitted successfully! ');
       
       // Reset form
       setFormData({ applicant_name: '', grade_level: 'Grade 1', gender: 'Male' });
@@ -144,16 +144,19 @@ export default function Home() {
       setImagePreview(null);
       fetchData();
     } catch (error: any) {
-      console.error("Submission failed:", error.response?.data || error.message);
-      alert('Failed to submit application. Please check fields.');
-    } finally {
+  console.error("Submission failed:", error.response?.data || error.message);
+  
+  // Exact backend error eka alert ekata ganna:
+  const errorMsg = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+  alert(`Failed to submit: ${errorMsg}`);
+} finally {
       setLoading(false);
     }
   };
 
   const handleStatusChange = async (id: number, newStatus: string) => {
     try {
-      await axios.patch(`${API_BASE_URL}submissions/${id}/`, { status: newStatus });
+      await axios.patch(`${API_BASE_URL}/submissions/${id}/`, { status: newStatus });
       fetchData();
     } catch (error) {
       console.error("Failed to update status", error);
@@ -164,7 +167,7 @@ export default function Home() {
   const handleDelete = async (id: number) => {
     if (confirm('Are you sure you want to delete this applicant record?')) {
       try {
-        await axios.delete(`${API_BASE_URL}submissions/${id}/`);
+        await axios.delete(`${API_BASE_URL}/submissions/${id}/`);
         fetchData();
       } catch (error) {
         console.error("Failed to delete submission", error);
@@ -185,7 +188,7 @@ export default function Home() {
 
   const handleEditSubmit = async (id: number) => {
     try {
-      await axios.patch(`${API_BASE_URL}submissions/${id}/`, editFormData);
+      await axios.patch(`${API_BASE_URL}/submissions/${id}/`, editFormData);
       setEditingId(null);
       fetchData();
     } catch (error) {
@@ -211,9 +214,7 @@ export default function Home() {
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">School Admission Portal</h1>
-              <p className="text-sm text-slate-500 flex items-center gap-1.5 mt-0.5">
-                <Sparkles size={14} className="text-indigo-500" /> Fore Forms AB — Full-Stack Internship Evaluation
-              </p>
+              
             </div>
           </div>
 

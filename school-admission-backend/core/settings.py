@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ig3u)_t7!wj(pzr+k+8g2zmh=7qsa%q91f*j2)wsyv!0bgg=u!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -72,9 +72,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-CORS_ALLOWED_ORIGINS = [
-    "https://school-admission-ten.vercel.app",
-]
+CORS_ALLOW_ALL_ORIGINS = True
+
+ALLOWED_HOSTS = ['*']
 
 
 # Database
@@ -139,5 +139,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-DEBUG = False
-ALLOWED_HOSTS = ['.onrender.com', '127.0.0.1', 'localhost']
+
+DEBUG = True 
+
+ALLOWED_HOSTS = ['*']
